@@ -5,10 +5,12 @@ IDENTIFICADOR: [a-zA-Z][a-zA-Z0-9]*;          // Identificadores
 INT: [0-9]+;                                  // Números enteros
 DECIMAL: [0-9]+'.'[0-9]+;                     // Números decimales
 STRING: '"' ~["\r\n]* '"';                    // Cadenas entre comillas dobles
+BOOLEAN: ('true' | 'false');                  // Booleanos
 ASIGNACION: '=';
 OPERADORCOMPARACION: ('==' | '!=' | '<' | '>' | '<=' | '>=');
 OPERADORLOGICO: ('||' | '&&');
 FINALIZADOR: ';';
+
 // Ignorar espacios en blanco
 BLANCO: [ \t\r\n]+ -> skip;
 
@@ -39,6 +41,7 @@ expresion: '(' expresion ')'                              # parentesis
     | DECIMAL                                             # decimal
     | STRING                                              # string
     | IDENTIFICADOR                                       # identificador
+    | BOOLEAN                                             # booleano
     | expresion OPERADORCOMPARACION expresion             # comparacion
     | expresion OPERADORLOGICO expresion                  # logico
     | expresion '+' expresion                             # adicion

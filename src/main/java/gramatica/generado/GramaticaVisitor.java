@@ -95,6 +95,13 @@ public interface GramaticaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDivision(GramaticaParser.DivisionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code booleano}
+	 * labeled alternative in {@link GramaticaParser#expresion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBooleano(GramaticaParser.BooleanoContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code sustraccion}
 	 * labeled alternative in {@link GramaticaParser#expresion}.
 	 * @param ctx the parse tree

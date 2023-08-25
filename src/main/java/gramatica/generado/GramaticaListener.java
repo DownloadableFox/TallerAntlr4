@@ -150,6 +150,18 @@ public interface GramaticaListener extends ParseTreeListener {
 	 */
 	void exitDivision(GramaticaParser.DivisionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code booleano}
+	 * labeled alternative in {@link GramaticaParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void enterBooleano(GramaticaParser.BooleanoContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code booleano}
+	 * labeled alternative in {@link GramaticaParser#expresion}.
+	 * @param ctx the parse tree
+	 */
+	void exitBooleano(GramaticaParser.BooleanoContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code sustraccion}
 	 * labeled alternative in {@link GramaticaParser#expresion}.
 	 * @param ctx the parse tree
