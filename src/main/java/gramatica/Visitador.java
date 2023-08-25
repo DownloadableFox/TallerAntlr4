@@ -227,7 +227,6 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
         }
     }
 
-
     @Override
     public Object visitBooleano(GramaticaParser.BooleanoContext ctx) {
         TerminalNode boolNode = (TerminalNode) ctx.BOOLEAN();
@@ -241,7 +240,6 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
 
         throw new RuntimeException("Valor booleano desconocido: " + boolValue);
     }
-
 
     @Override
     public Object visitSustraccion(GramaticaParser.SustraccionContext ctx) {
@@ -261,7 +259,6 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
         }
     }
 
-
     @Override
     public Object visitElevacion(GramaticaParser.ElevacionContext ctx) {
         Object baseObj = visit(ctx.expresion(0));
@@ -280,13 +277,10 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
         }
     }
 
-
-
     @Override
     public Object visitDecimal(GramaticaParser.DecimalContext ctx) {
         return Double.parseDouble(ctx.DECIMAL().getText());
     }
-
 
     @Override
     public Object visitComparacion(GramaticaParser.ComparacionContext ctx) {
@@ -408,6 +402,5 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
             throw new RuntimeException("Tipos de datos no compatibles para la operación de módulo");
         }
     }
-
 }
 

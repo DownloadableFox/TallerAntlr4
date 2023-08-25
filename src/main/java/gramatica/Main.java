@@ -15,8 +15,12 @@ public class Main {
         final CommonTokenStream tokens = new CommonTokenStream(lexer); // Tokenizador
         final GramaticaParser parser = new GramaticaParser(tokens); // Analisis sintactico
 
-        // Arból de análisis sintáctico
-        ParseTree tree = parser.programa();
-        visitador.visit(tree);
+        // Arbol de análisis sintáctico
+        try {
+            ParseTree tree = parser.programa();
+        } catch (Exception e) {
+            System.out.println("Error en el analisis sintactico");
+            System.out.println(e.getMessage());
+        }
     }
 }
