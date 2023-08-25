@@ -10,9 +10,7 @@ public class Main {
     private static final Visitador visitador = new Visitador();
 
     public static void main(String[] args) {
-        final ANTLRInputStream input = new ANTLRInputStream("Escribir \"hola\";");
-        final GramaticaLexer lexer = new GramaticaLexer(input); // Analisis lexico
-        final CommonTokenStream tokens = new CommonTokenStream(lexer); // Tokenizador
+        final CommonTokenStream tokens = getCommonTokenStream();
         final GramaticaParser parser = new GramaticaParser(tokens); // Analisis sintactico
 
         try {
@@ -20,6 +18,25 @@ public class Main {
             visitador.visit(tree);
         } catch (Exception e) {
             System.out.println("Error en el analisis sintactico");
+            System.out.println(e.getMessage());
         }
+    }
+
+    private static CommonTokenStream getCommonTokenStream() {
+        @SuppressWarnings("deprecation")
+        final ANTLRInputStream input = new ANTLRInputStream("""
+                dormir = true;
+                
+                si (dormir == true) {
+                    Escribir "buen dia";
+                    Escribir "prueba";
+                } sino {
+                    Escribir "buena noche";
+                }
+            """);
+
+        final GramaticaLexer lexer = new GramaticaLexer(input); // Analisis lexico
+        final CommonTokenStream tokens = new CommonTokenStream(lexer); // Tokenizador
+        return tokens;
     }
 }

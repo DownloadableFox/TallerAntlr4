@@ -1,11 +1,11 @@
 grammar Gramatica;
 
 // Definición de reglas léxicas LEXER
-IDENTIFICADOR: [a-zA-Z][a-zA-Z0-9]*;          // Identificadores
 INT: [0-9]+;                                  // Números enteros
 DECIMAL: [0-9]+'.'[0-9]+;                     // Números decimales
 STRING: '"' ~["\r\n]* '"';                    // Cadenas entre comillas dobles
 BOOLEAN: ('true' | 'false');                  // Booleanos
+IDENTIFICADOR: [a-zA-Z][a-zA-Z0-9]*;          // Identificadores
 ASIGNACION: '=';
 OPERADORCOMPARACION: ('==' | '!=' | '<' | '>' | '<=' | '>=');
 OPERADORLOGICO: ('||' | '&&');
@@ -27,7 +27,10 @@ sentenciaAsignacion: IDENTIFICADOR ASIGNACION expresion FINALIZADOR;
 sentenciaEscritura: 'Escribir' expresion FINALIZADOR;
 
 //La sentencia IF esta compuesta por condicion o condiciones.
-sentenciaIf: 'si' '(' condicion ')' '{' sentencia+ '}' ('sino' '{' sentencia+ '}')?;
+sentenciaIf: 'si' '(' condicion ')' '{' sentencia+ '}' sentenciaSino?;
+
+//La sentencia SINO esta compuesta por una o mas sentencias.
+sentenciaSino : 'sino' '{' sentencia+ '}';
 
 //La sentencia WHILE esta compuesta por
 sentenciaWhile: 'mientras' '(' condicion ')' '{' sentencia+ '}';
@@ -38,10 +41,10 @@ condicion: expresion OPERADORCOMPARACION expresion;
 //Diferentes expresiones.
 expresion: '(' expresion ')'                              # parentesis
     | INT                                                 # entero
+    | BOOLEAN                                             # booleano
     | DECIMAL                                             # decimal
     | STRING                                              # string
     | IDENTIFICADOR                                       # identificador
-    | BOOLEAN                                             # booleano
     | expresion OPERADORCOMPARACION expresion             # comparacion
     | expresion OPERADORLOGICO expresion                  # logico
     | expresion '+' expresion                             # adicion

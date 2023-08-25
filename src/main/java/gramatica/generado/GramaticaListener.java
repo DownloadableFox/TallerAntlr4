@@ -58,6 +58,16 @@ public interface GramaticaListener extends ParseTreeListener {
 	 */
 	void exitSentenciaIf(GramaticaParser.SentenciaIfContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link GramaticaParser#sentenciaSino}.
+	 * @param ctx the parse tree
+	 */
+	void enterSentenciaSino(GramaticaParser.SentenciaSinoContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link GramaticaParser#sentenciaSino}.
+	 * @param ctx the parse tree
+	 */
+	void exitSentenciaSino(GramaticaParser.SentenciaSinoContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link GramaticaParser#sentenciaWhile}.
 	 * @param ctx the parse tree
 	 */

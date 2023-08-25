@@ -41,6 +41,12 @@ public interface GramaticaVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSentenciaIf(GramaticaParser.SentenciaIfContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link GramaticaParser#sentenciaSino}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSentenciaSino(GramaticaParser.SentenciaSinoContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link GramaticaParser#sentenciaWhile}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

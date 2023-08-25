@@ -48,7 +48,13 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
     @Override
     public Object visitSentenciaEscritura(GramaticaParser.SentenciaEscrituraContext ctx) {
         Object valor = visit(ctx.expresion());
-        System.out.println(valor);
+        String texto = valor.toString();
+
+        if (valor instanceof String) {
+            texto = texto.substring(1, texto.length() - 1);
+        }
+
+        System.out.println(texto);
         return null;
     }
 
@@ -56,18 +62,21 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
     public Object visitSentenciaIf(GramaticaParser.SentenciaIfContext ctx) {
         boolean condicion = (boolean) visit(ctx.condicion());
 
-        if (condicion ) {
+        if (condicion) {
             for (GramaticaParser.SentenciaContext sentenciaCtx : ctx.sentencia()) {
                 visit(sentenciaCtx);
             }
+        } else if (ctx.sentenciaSino() != null) {
+            visit(ctx.sentenciaSino());
         }
-        else {
 
-            if (ctx.sentencia().size() > 0) {
-                for (GramaticaParser.SentenciaContext sentenciaCtx : ctx.sentencia()) {
-                    visit(sentenciaCtx);
-                }
-            }
+        return null;
+    }
+
+    @Override
+    public Object visitSentenciaSino(GramaticaParser.SentenciaSinoContext ctx) {
+        for (GramaticaParser.SentenciaContext sentenciaCtx : ctx.sentencia()) {
+            visit(sentenciaCtx);
         }
         return null;
     }
@@ -201,6 +210,19 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitBooleano(GramaticaParser.BooleanoContext ctx) {
+        TerminalNode boolNode = ctx.BOOLEAN();
+        String boolValue = boolNode.getText();
+
+        if (boolValue.equals("true")) {
+            return true;
+        } else if (boolValue.equals("false")) {
+            return false;
+        }
+
+        throw new RuntimeException("Valor booleano desconocido: " + boolValue);
+    }
+    @Override
     public Object visitParentesis(GramaticaParser.ParentesisContext ctx) {
         return visit(ctx.expresion());
     }
@@ -225,20 +247,6 @@ public class Visitador extends GramaticaBaseVisitor<Object> {
         } else {
             throw new RuntimeException("Tipos de datos no compatibles para la división");
         }
-    }
-
-    @Override
-    public Object visitBooleano(GramaticaParser.BooleanoContext ctx) {
-        TerminalNode boolNode = (TerminalNode) ctx.BOOLEAN();
-        String boolValue = boolNode.getText();
-
-        if (boolValue.equals("true")) {
-            return true;
-        } else if (boolValue.equals("false")) {
-            return false;
-        }
-
-        throw new RuntimeException("Valor booleano desconocido: " + boolValue);
     }
 
     @Override
