@@ -6,37 +6,43 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.Scanner;
+
 public class Main {
     private static final Visitador visitador = new Visitador();
-
+    private static final Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
-        final CommonTokenStream tokens = getCommonTokenStream();
-        final GramaticaParser parser = new GramaticaParser(tokens); // Analisis sintactico
+        System.out.println("Taller Lenguaje con Antlr4");
+        System.out.println("Ingrese una sentencia o \"exit\" para salir");
 
-        try {
-            ParseTree tree = parser.programa();
-            visitador.visit(tree);
-        } catch (Exception e) {
-            System.out.println("Error en el analisis sintactico");
-            System.out.println(e.getMessage());
+        while (true) {
+            System.out.print("\n> ");
+            final String input = scanner.nextLine();
+
+            if (input.equals("exit")) {
+                break;
+            }
+
+            try {
+                // Se general el parser para la sentencia ingresada
+                final GramaticaParser parser = generarParser(input);
+
+                // Se obtiene el arbol de analisis sintactico
+                final ParseTree tree = parser.programa();
+                visitador.visit(tree);
+            } catch (Exception e) {
+                System.out.println("Ha ocurrido un error al analizar la sentencia, error:");
+                System.out.println(e.getMessage());
+            }
         }
     }
 
-    private static CommonTokenStream getCommonTokenStream() {
+    private static GramaticaParser generarParser(final String input) {
         @SuppressWarnings("deprecation")
-        final ANTLRInputStream input = new ANTLRInputStream("""
-                dormir = true;
-                
-                si (dormir == true) {
-                    Escribir "buen dia";
-                    Escribir "prueba";
-                } sino {
-                    Escribir "buena noche";
-                }
-            """);
+        ANTLRInputStream stream = new ANTLRInputStream(input);
+        GramaticaLexer lexer = new GramaticaLexer(stream); // Analisis lexico
+        CommonTokenStream tokens = new CommonTokenStream(lexer); // Tokenizador
 
-        final GramaticaLexer lexer = new GramaticaLexer(input); // Analisis lexico
-        final CommonTokenStream tokens = new CommonTokenStream(lexer); // Tokenizador
-        return tokens;
+        return new GramaticaParser(tokens); // Analisis sintactico
     }
 }
